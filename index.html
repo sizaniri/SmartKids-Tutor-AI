@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+    <title>SmartKids Tutor AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Tajawal', sans-serif;
+        background-color: #f0fdf4;
+        overscroll-behavior-y: none;
+      }
+      .font-en {
+        font-family: 'Fredoka', sans-serif;
+      }
+      .font-ar {
+        font-family: 'Tajawal', sans-serif;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      /* User Requested Styles */
+      .confirm-box {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .confirm-box p {
+        font-size: 20px;
+        margin-bottom: 15px;
+        font-weight: bold;
+      }
+
+      .yes-btn, .no-btn {
+        font-size: 18px;
+        padding: 12px 20px;
+        margin: 10px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: transform 0.1s;
+      }
+
+      .yes-btn:active, .no-btn:active {
+        transform: scale(0.95);
+      }
+
+      .yes-btn {
+        background-color: #4CAF50;
+        color: white;
+      }
+
+      .no-btn {
+        background-color: #FF9800;
+        color: white;
+      }
+
+      .dark .confirm-box p {
+        color: #e5e7eb;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
+    "lucide-react": "https://esm.sh/lucide-react@^0.561.0",
+    "react-markdown": "https://esm.sh/react-markdown@^10.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

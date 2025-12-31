@@ -1,0 +1,8 @@
+{
+  "name": "SmartKids Tutor AI",
+  "description": "A bilingual (Arabic/English), child-friendly AI tutor designed for kids aged 8-14. Features safe, educational conversations, subject selection, and a parent dashboard.",
+  "requestFramePermissions": [
+    "microphone",
+    "camera"
+  ]
+}
