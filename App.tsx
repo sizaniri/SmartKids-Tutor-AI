@@ -90,7 +90,6 @@ export default function App() {
   const [isFamilyReport, setIsFamilyReport] = useState(false);
   const [isCameraActive, setIsCameraActive] = useState(false);
   
-  // New Child Profile Form State
   const [newChildData, setNewChildData] = useState({
     name: '',
     age: 10,
@@ -98,7 +97,6 @@ export default function App() {
     avatar: '🦁'
   });
 
-  // Premium State
   const [premiumType, setPremiumType] = useState<'game' | 'math' | 'science' | 'language' | 'guess' | null>(null);
   const [premiumChallenge, setPremiumChallenge] = useState<PremiumContentResponse | null>(null);
   const [isPremiumLoading, setIsPremiumLoading] = useState(false);
@@ -297,8 +295,6 @@ export default function App() {
     try {
       const content = await generatePremiumContent(type, currentProfile, language, 'medium', specificLang);
       setPremiumChallenge(content);
-      
-      // If language challenge or guess challenge, generate a small image
       if (content.imagePrompt) {
         const imageUrl = await generateObjectImage(content.imagePrompt);
         setPremiumChallengeImage(imageUrl);
@@ -400,7 +396,7 @@ export default function App() {
             </main>
             {showLangSelector && (
               <div className="fixed inset-0 bg-black/60 backdrop-blur-md z-[600] flex items-center justify-center p-6">
-                 <div className="bg-white dark:bg-stone-900 rounded-[2.5rem] p-8 w-full max-w-sm shadow-2xl border-4 border-amber-100 text-center animate-fade-in-up">
+                 <div className="bg-white dark:bg-stone-900 rounded-[2.5rem] p-8 w-full max-sm shadow-2xl border-4 border-amber-100 text-center animate-fade-in-up">
                     <h3 className="text-2xl font-black mb-6 dark:text-white">{t.selectLangTitle}</h3>
                     <div className="grid gap-4">
                        <button onClick={() => { setSelectedLanguageForChallenge('english'); startPremiumChallenge('language', 'english'); setShowLangSelector(false); }} className="p-5 bg-blue-50 dark:bg-stone-800 rounded-2xl flex items-center justify-center gap-3 border-2 border-transparent hover:border-blue-500 transition-all group active:scale-95"><span className="text-3xl">🇬🇧</span> <span className="text-xl font-bold dark:text-stone-100 group-hover:text-blue-600">English</span></button>
@@ -415,49 +411,55 @@ export default function App() {
 
       case 'premium-content':
         return (
-          <div className="min-h-screen bg-[#896C6C] flex flex-col items-center justify-center p-6 text-white overflow-hidden relative">
-            <div className="absolute top-8 left-8"><button onClick={() => setCurrentView('premium-dashboard')} className="p-3 bg-white/20 rounded-full backdrop-blur-md text-white"><ArrowLeft /></button></div>
+          <div className="min-h-screen bg-gradient-to-br from-[#FFD700] via-[#FFA500] to-[#FF8C00] dark:from-stone-900 dark:to-stone-950 flex flex-col items-center justify-center p-6 text-white overflow-hidden relative">
+            <div className="absolute top-8 left-8"><button onClick={() => setCurrentView('premium-dashboard')} className="p-3 bg-white/20 rounded-full backdrop-blur-md text-white hover:bg-white/30 transition-all"><ArrowLeft /></button></div>
             <div className="max-w-2xl w-full">
                {isPremiumLoading ? (
                  <div className="flex flex-col items-center gap-8 animate-pulse">
-                   <div className="w-32 h-32 bg-white/20 rounded-full flex items-center justify-center"><Loader2 size={64} className="animate-spin text-white" /></div>
-                   <h2 className="text-3xl font-black text-center text-white">{t.thinking}</h2>
+                   <div className="w-40 h-40 bg-white/20 rounded-full flex items-center justify-center border-4 border-white/40"><Loader2 size={64} className="animate-spin text-white" /></div>
+                   <h2 className="text-4xl font-black text-center text-white drop-shadow-lg">{t.thinking}</h2>
                  </div>
                ) : premiumChallenge && (
-                 <div className="bg-slate-200 text-blue-800 p-10 rounded-[3rem] shadow-2xl space-y-8 animate-fade-in-up flex flex-col items-center border-4 border-slate-300">
+                 <div className="bg-slate-50 text-indigo-900 p-10 rounded-[4rem] shadow-2xl space-y-8 animate-fade-in-up flex flex-col items-center border-8 border-white dark:bg-stone-900 dark:border-stone-800">
                     <div className="w-full flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-3 text-blue-700 font-black uppercase tracking-widest text-sm"><Crown size={18} className="text-amber-500"/> تحدي {premiumType?.toUpperCase()} المتميز</div>
-                      <span className="bg-blue-100 text-blue-600 px-4 py-1.5 rounded-full text-xs font-black border border-blue-200 uppercase">{premiumChallenge.difficulty}</span>
+                      <div className="flex items-center gap-3 text-amber-600 font-black uppercase tracking-widest text-sm"><Crown size={22} className="text-amber-500 animate-pulse"/> تحدي {premiumType?.toUpperCase()} المتميز</div>
+                      <span className="bg-amber-100 text-amber-700 px-5 py-2 rounded-full text-xs font-black border border-amber-200 uppercase">{premiumChallenge.difficulty}</span>
                     </div>
                     
-                    {/* Visual Asset Container */}
                     {premiumChallengeImage && (
-                       <div className="flex flex-col items-center gap-4 mb-2">
-                          <div className="w-56 h-56 bg-slate-50 rounded-[3rem] border-4 border-slate-300 overflow-hidden shadow-inner flex items-center justify-center bg-white">
+                       <div className="flex flex-col items-center gap-4 mb-2 animate-bounce-slow">
+                          <div className="w-64 h-64 bg-white rounded-[3.5rem] border-8 border-amber-100 overflow-hidden shadow-2xl flex items-center justify-center relative">
                              <img src={premiumChallengeImage} className="w-full h-full object-cover animate-zoom-in" alt="Object" />
+                             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
                           </div>
-                          <p className="text-xl font-black text-blue-600 uppercase tracking-widest drop-shadow-sm italic">? ما هذا</p>
+                          <p className="text-2xl font-black text-amber-500 uppercase tracking-widest drop-shadow-sm italic">? ما هذا</p>
                        </div>
                     )}
 
-                    <h3 className="text-3xl font-black text-center mb-6 leading-tight text-blue-900">{premiumChallenge.question}</h3>
+                    <h3 className="text-3xl font-black text-center mb-6 leading-tight text-indigo-950 dark:text-white drop-shadow-sm">{premiumChallenge.question}</h3>
                     
-                    {/* Centered Options List - Gray Background with Blue Text as requested */}
                     <div className="grid gap-4 w-full max-w-sm mx-auto">
                       {premiumChallenge.options?.map(o => (
-                        <button key={o} onClick={() => {
-                          const isC = o === premiumChallenge.answer;
-                          if (isC) { setShowConfetti(true); speechService.speak(language === Language.ARABIC ? "أنت رائع حقاً!" : "You are amazing!", language); }
-                          alert(isC ? '🎉 إجابة صحيحة!' : premiumChallenge.explanation);
-                        }} className="p-6 rounded-[2.2rem] bg-slate-300 text-blue-700 font-black text-2xl text-center shadow-md hover:bg-slate-400 hover:text-blue-900 transition-all border-b-4 border-slate-400 active:translate-y-1 active:border-b-0">
-                           {o}
+                        <button 
+                          key={o} 
+                          onClick={() => {
+                            const isC = o === premiumChallenge.answer;
+                            if (isC) { 
+                              setShowConfetti(true); 
+                              speechService.speak(language === Language.ARABIC ? "أنت رائع حقاً!" : "You are amazing!", language); 
+                            }
+                            alert(isC ? '🎉 إجابة صحيحة!' : premiumChallenge.explanation);
+                          }} 
+                          className="p-6 rounded-[2.5rem] bg-[#F1F5F9] text-[#2563EB] font-black text-2xl text-center shadow-lg hover:bg-[#E2E8F0] transition-all border-b-8 border-[#CBD5E1] active:translate-y-2 active:border-b-0 group"
+                        >
+                           <span className="group-hover:scale-110 inline-block transition-transform">{o}</span>
                         </button>
                       ))}
                     </div>
                     
-                    <div className="pt-8 w-full border-t-2 border-slate-300 mt-4 flex justify-center">
-                      <button onClick={() => startPremiumChallenge(premiumType!, selectedLanguageForChallenge || undefined)} className="flex items-center gap-3 text-blue-600 font-black hover:text-blue-800 transition-colors py-2 px-6 rounded-2xl bg-slate-100 shadow-sm border border-slate-200">
-                        <RefreshCw size={24}/> {language === Language.ARABIC ? 'تحدي جديد' : 'New Challenge'}
+                    <div className="pt-10 w-full border-t-4 border-slate-100 dark:border-stone-800 mt-6 flex justify-center">
+                      <button onClick={() => startPremiumChallenge(premiumType!, selectedLanguageForChallenge || undefined)} className="flex items-center gap-4 text-white font-black hover:scale-110 transition-all py-4 px-10 rounded-full bg-indigo-500 shadow-xl border-b-4 border-indigo-700 active:translate-y-1 active:border-b-0">
+                        <RefreshCw size={28}/> {language === Language.ARABIC ? 'تحدي جديد' : 'New Challenge'}
                       </button>
                     </div>
                  </div>
@@ -507,12 +509,7 @@ export default function App() {
                 {SUBJECTS.map(s => (
                   <button key={s.id} onClick={() => { setSelectedSubject(s); setMessages([{id: 'w', role: 'model', text: language === Language.ARABIC ? `مرحباً بك في عالم ${s.nameAr}!` : `Welcome!`, timestamp: Date.now()}]); setCurrentView('chat'); }} className={`${s.color} p-6 rounded-3xl flex items-center gap-4 hover:scale-105 transition-transform shadow-sm border-2`}><span className="text-4xl">{s.icon}</span><h4 className="text-2xl font-black">{language === Language.ARABIC ? s.nameAr : s.nameEn}</h4></button>
                 ))}
-                
-                {/* Premium Dashboard Button - Positioned Under General Chat */}
-                <button 
-                  onClick={() => setCurrentView('premium-dashboard')} 
-                  className="bg-gradient-to-r from-amber-400 to-amber-600 text-white p-6 rounded-3xl flex items-center gap-4 hover:scale-105 transition-transform shadow-lg border-2 border-amber-300 dark:border-amber-700 mt-2"
-                >
+                <button onClick={() => setCurrentView('premium-dashboard')} className="bg-gradient-to-r from-amber-400 to-amber-600 text-white p-6 rounded-3xl flex items-center gap-4 hover:scale-105 transition-transform shadow-lg border-2 border-amber-300 dark:border-amber-700 mt-2">
                   <div className="bg-white/20 p-2 rounded-2xl"><Crown size={32} className="text-white" /></div>
                   <h4 className="text-2xl font-black">{t.premiumDashboard}</h4>
                 </button>
@@ -621,8 +618,6 @@ export default function App() {
       <div className="min-h-screen bg-[#F0FDF4] dark:bg-stone-950 transition-colors duration-300">
         {renderCurrentView()}
         {timerStatus !== 'idle' && <div className="fixed top-24 end-6 z-[100] bg-white dark:bg-stone-900 shadow-2xl rounded-full px-5 py-3 border-2 border-indigo-400 flex items-center gap-3"><Timer className="text-indigo-500" size={24} /><span className="text-2xl font-black text-indigo-600">{formatTime(timeLeft)}</span><button onClick={() => setTimerStatus('idle')}><XCircle size={20} className="text-red-400" /></button></div>}
-
-        {/* MODAL: QUIZ */}
         {showQuizModal && (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[500] flex items-center justify-center p-6">
             <div className="bg-white dark:bg-stone-900 rounded-[2.5rem] p-8 w-full max-w-lg shadow-2xl border-4 border-indigo-100">
@@ -638,7 +633,6 @@ export default function App() {
                         if(isC) {
                           setShowConfetti(true);
                           speechService.speak(language === Language.ARABIC ? "إجابة عبقرية! أحسنت" : "Genius answer!", language, currentProfile?.preferredVoice, speakingRate);
-                          // Automatic transition to next part after a delay
                           setTimeout(() => {
                             setShowQuizModal(false);
                             setQuizFeedback('idle');
@@ -648,14 +642,11 @@ export default function App() {
                       }} className={`p-4 rounded-2xl border-2 font-bold transition-all ${quizFeedback === 'idle' ? 'hover:border-indigo-400 dark:border-stone-700' : o === quizData.answer ? 'bg-green-100 border-green-500 text-green-800 scale-105 shadow-md' : 'opacity-50'}`}>{o}</button>
                     ))}
                   </div>
-                  {quizFeedback !== 'idle' && <div className="p-4 bg-indigo-50 dark:bg-stone-800 rounded-2xl font-bold dark:text-white animate-pulse">{quizFeedback === 'correct' ? (language === Language.ARABIC ? '🎉 إجابة صحيحة! جاري الانتقال...' : '🎉 Correct! Moving on...') : quizData.explanation}</div>}
                 </div>
               )}
             </div>
           </div>
         )}
-
-        {/* MODAL: LESSON COMPLETE */}
         {showLessonCompleteModal && (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[500] flex items-center justify-center p-6">
             <div className="bg-white dark:bg-stone-900 rounded-[2.5rem] p-10 text-center shadow-2xl border-4 border-emerald-100">
@@ -666,15 +657,12 @@ export default function App() {
             </div>
           </div>
         )}
-
         {showTimerConfig && (
           <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[300] flex items-center justify-center p-6"><div className="bg-white dark:bg-stone-900 rounded-[2.5rem] p-8 w-full max-sm"><div className="flex justify-between items-center mb-6"><h3 className="text-2xl font-black dark:text-stone-100">{t.timerStart}</h3><button onClick={() => setShowTimerConfig(false)}><X /></button></div><div className="grid grid-cols-3 gap-3 mb-8">{[15, 25, 45].map(m => <button key={m} onClick={() => setTimeLeft(m * 60)} className={`p-4 rounded-2xl border-2 font-black ${timeLeft === m * 60 ? 'bg-indigo-500 text-white' : 'bg-slate-50 dark:bg-stone-800'}`}>{m}<br/><span className="text-[10px]">{t.minutes}</span></button>)}</div><Button fullWidth size="xl" onClick={() => { setTimerStatus('running'); setShowTimerConfig(false); }}><Play /> {t.letsGo}</Button></div></div>
         )}
-
         {showPinModal && (
           <div className="fixed inset-0 bg-black/60 z-[400] flex items-center justify-center p-6"><div className="bg-white dark:bg-stone-900 rounded-[2.5rem] p-8 shadow-2xl w-full max-w-sm"><h3 className="text-2xl font-black text-center dark:text-stone-100 mb-6">{t.parentalLock}</h3><input type="password" maxLength={4} className={`text-center text-4xl font-black w-full bg-slate-50 dark:bg-stone-800 rounded-2xl py-6 border-4 mb-4 ${isPinError ? 'border-red-400' : 'border-slate-100'}`} value={tempPin} onChange={(e) => { setTempPin(e.target.value); setIsPinError(false); }} placeholder="••••" /><div className="space-y-3"><Button fullWidth size="lg" onClick={() => { if(tempPin === '1234') { setShowPinModal(false); setCurrentView('parent-dashboard'); setTempPin(''); } else { setIsPinError(true); } }}>{t.unlock}</Button><Button fullWidth variant="ghost" onClick={() => setShowPinModal(false)}>{t.cancel}</Button></div></div></div>
         )}
-
         {showConfetti && <div className="fixed inset-0 pointer-events-none z-[600] flex items-center justify-center text-9xl animate-bounce">🎊</div>}
       </div>
     </div>
